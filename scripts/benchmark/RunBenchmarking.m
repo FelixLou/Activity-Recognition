@@ -77,74 +77,74 @@ param.classifier='ncc';fprintf(param.classifier);
 %[resultmean.pred{1,5},~,resultmean.acc{1,5}]=tanalyze(training1,test1,2,param);
 [resultmean.pred{1,5},xunused,resultmean.acc{1,5}]=tanalyze(training1,test1,2,param);
 
-%Subject 2
-sprintf('subject 2\n')
-param=parameters;
-if strcmp('meanVar',param.FX.method)
-    param.featureReduction.param=113;
-end
-param.classifier='diaglinear';fprintf(param.classifier);
-[resultmean.pred{2,1},resultmean.actCls{2,1},resultmean.acc{2,1}]=tanalyze(training2,test2,2,param);
-param.classifier='diagquadratic';fprintf(param.classifier);
-%[resultmean.pred{2,2},~,resultmean.acc{2,2}]=tanalyze(training2,test2,2,param);
-[resultmean.pred{2,2},xunused,resultmean.acc{2,2}]=tanalyze(training2,test2,2,param);
-param.classifier='knn';fprintf(param.classifier);
-param.K=1;
-%[resultmean.pred{2,3},~,resultmean.acc{2,3}]=tanalyze(training2,test2,2,param);
-[resultmean.pred{2,3},xunused,resultmean.acc{2,3}]=tanalyze(training2,test2,2,param);
-param.classifier='knn';fprintf(param.classifier);
-param.K=3;
-%[resultmean.pred{2,4},~,resultmean.acc{2,4}]=tanalyze(training2,test2,2,param);
-[resultmean.pred{2,4},xunused,resultmean.acc{2,4}]=tanalyze(training2,test2,2,param);
-param.classifier='ncc';fprintf(param.classifier);
-%[resultmean.pred{2,5},~,resultmean.acc{2,5}]=tanalyze(training2,test2,2,param);
-[resultmean.pred{2,5},xunused,resultmean.acc{2,5}]=tanalyze(training2,test2,2,param);
-
-%Subject3
-sprintf('subject 3\n')
-param=parameters;
-if strcmp('meanVar',param.FX.method)
-    param.featureReduction.param=113;
-end
-param.classifier='diaglinear';fprintf(param.classifier);
-[resultmean.pred{3,1},resultmean.actCls{3,1},resultmean.acc{3,1}]=tanalyze(training3,test3,2,param);
-param.classifier='diagquadratic';fprintf(param.classifier);
-%[resultmean.pred{3,2},~,resultmean.acc{3,2}]=tanalyze(training3,test3,2,param);
-[resultmean.pred{3,2},xunused,resultmean.acc{3,2}]=tanalyze(training3,test3,2,param);
-param.classifier='knn';fprintf(param.classifier);
-param.K=1;
-%[resultmean.pred{3,3},~,resultmean.acc{3,3}]=tanalyze(training3,test3,2,param);
-[resultmean.pred{3,3},xunused,resultmean.acc{3,3}]=tanalyze(training3,test3,2,param);
-param.classifier='knn';fprintf(param.classifier);
-param.K=3;
-%[resultmean.pred{3,4},~,resultmean.acc{3,4}]=tanalyze(training3,test3,2,param);
-[resultmean.pred{3,4},xunused,resultmean.acc{3,4}]=tanalyze(training3,test3,2,param);
-param.classifier='ncc';fprintf(param.classifier);
-%[resultmean.pred{3,5},~,resultmean.acc{3,5}]=tanalyze(training3,test3,2,param);
-[resultmean.pred{3,5},xunused,resultmean.acc{3,5}]=tanalyze(training3,test3,2,param);
-
-%Subject4
-sprintf('subject 4\n')
-param=parameters;
-if strcmp('meanVar',param.FX.method)
-    param.featureReduction.param=45;
-end
-param.classifier='diaglinear';fprintf(param.classifier);
-[resultmean.pred{4,1},resultmean.actCls{4,1},resultmean.acc{4,1}]=tanalyze(training4,test4,2,param);
-param.classifier='diagquadratic';fprintf(param.classifier);
-%[resultmean.pred{4,2},~,resultmean.acc{4,2}]=tanalyze(training4,test4,2,param);
-[resultmean.pred{4,2},xunused,resultmean.acc{4,2}]=tanalyze(training4,test4,2,param);
-param.classifier='knn';fprintf(param.classifier);
-param.K=1;
-%[resultmean.pred{4,3},~,resultmean.acc{4,3}]=tanalyze(training4,test4,2,param);
-[resultmean.pred{4,3},xunused,resultmean.acc{4,3}]=tanalyze(training4,test4,2,param);
-param.classifier='knn';fprintf(param.classifier);
-param.K=3;
-%[resultmean.pred{4,4},~,resultmean.acc{4,4}]=tanalyze(training4,test4,2,param);
-[resultmean.pred{4,4},xunused,resultmean.acc{4,4}]=tanalyze(training4,test4,2,param);
-param.classifier='ncc';fprintf(param.classifier);
-%[resultmean.pred{4,5},~,resultmean.acc{4,5}]=tanalyze(training4,test4,2,param);
-[resultmean.pred{4,5},xunused,resultmean.acc{4,5}]=tanalyze(training4,test4,2,param);
+% %Subject 2
+% sprintf('subject 2\n')
+% param=parameters;
+% if strcmp('meanVar',param.FX.method)
+%     param.featureReduction.param=113;
+% end
+% param.classifier='diaglinear';fprintf(param.classifier);
+% [resultmean.pred{2,1},resultmean.actCls{2,1},resultmean.acc{2,1}]=tanalyze(training2,test2,2,param);
+% param.classifier='diagquadratic';fprintf(param.classifier);
+% %[resultmean.pred{2,2},~,resultmean.acc{2,2}]=tanalyze(training2,test2,2,param);
+% [resultmean.pred{2,2},xunused,resultmean.acc{2,2}]=tanalyze(training2,test2,2,param);
+% param.classifier='knn';fprintf(param.classifier);
+% param.K=1;
+% %[resultmean.pred{2,3},~,resultmean.acc{2,3}]=tanalyze(training2,test2,2,param);
+% [resultmean.pred{2,3},xunused,resultmean.acc{2,3}]=tanalyze(training2,test2,2,param);
+% param.classifier='knn';fprintf(param.classifier);
+% param.K=3;
+% %[resultmean.pred{2,4},~,resultmean.acc{2,4}]=tanalyze(training2,test2,2,param);
+% [resultmean.pred{2,4},xunused,resultmean.acc{2,4}]=tanalyze(training2,test2,2,param);
+% param.classifier='ncc';fprintf(param.classifier);
+% %[resultmean.pred{2,5},~,resultmean.acc{2,5}]=tanalyze(training2,test2,2,param);
+% [resultmean.pred{2,5},xunused,resultmean.acc{2,5}]=tanalyze(training2,test2,2,param);
+% 
+% %Subject3
+% sprintf('subject 3\n')
+% param=parameters;
+% if strcmp('meanVar',param.FX.method)
+%     param.featureReduction.param=113;
+% end
+% param.classifier='diaglinear';fprintf(param.classifier);
+% [resultmean.pred{3,1},resultmean.actCls{3,1},resultmean.acc{3,1}]=tanalyze(training3,test3,2,param);
+% param.classifier='diagquadratic';fprintf(param.classifier);
+% %[resultmean.pred{3,2},~,resultmean.acc{3,2}]=tanalyze(training3,test3,2,param);
+% [resultmean.pred{3,2},xunused,resultmean.acc{3,2}]=tanalyze(training3,test3,2,param);
+% param.classifier='knn';fprintf(param.classifier);
+% param.K=1;
+% %[resultmean.pred{3,3},~,resultmean.acc{3,3}]=tanalyze(training3,test3,2,param);
+% [resultmean.pred{3,3},xunused,resultmean.acc{3,3}]=tanalyze(training3,test3,2,param);
+% param.classifier='knn';fprintf(param.classifier);
+% param.K=3;
+% %[resultmean.pred{3,4},~,resultmean.acc{3,4}]=tanalyze(training3,test3,2,param);
+% [resultmean.pred{3,4},xunused,resultmean.acc{3,4}]=tanalyze(training3,test3,2,param);
+% param.classifier='ncc';fprintf(param.classifier);
+% %[resultmean.pred{3,5},~,resultmean.acc{3,5}]=tanalyze(training3,test3,2,param);
+% [resultmean.pred{3,5},xunused,resultmean.acc{3,5}]=tanalyze(training3,test3,2,param);
+% 
+% %Subject4
+% sprintf('subject 4\n')
+% param=parameters;
+% if strcmp('meanVar',param.FX.method)
+%     param.featureReduction.param=45;
+% end
+% param.classifier='diaglinear';fprintf(param.classifier);
+% [resultmean.pred{4,1},resultmean.actCls{4,1},resultmean.acc{4,1}]=tanalyze(training4,test4,2,param);
+% param.classifier='diagquadratic';fprintf(param.classifier);
+% %[resultmean.pred{4,2},~,resultmean.acc{4,2}]=tanalyze(training4,test4,2,param);
+% [resultmean.pred{4,2},xunused,resultmean.acc{4,2}]=tanalyze(training4,test4,2,param);
+% param.classifier='knn';fprintf(param.classifier);
+% param.K=1;
+% %[resultmean.pred{4,3},~,resultmean.acc{4,3}]=tanalyze(training4,test4,2,param);
+% [resultmean.pred{4,3},xunused,resultmean.acc{4,3}]=tanalyze(training4,test4,2,param);
+% param.classifier='knn';fprintf(param.classifier);
+% param.K=3;
+% %[resultmean.pred{4,4},~,resultmean.acc{4,4}]=tanalyze(training4,test4,2,param);
+% [resultmean.pred{4,4},xunused,resultmean.acc{4,4}]=tanalyze(training4,test4,2,param);
+% param.classifier='ncc';fprintf(param.classifier);
+% %[resultmean.pred{4,5},~,resultmean.acc{4,5}]=tanalyze(training4,test4,2,param);
+% [resultmean.pred{4,5},xunused,resultmean.acc{4,5}]=tanalyze(training4,test4,2,param);
 
 save('results.mat','resultmean');
 %% Arranging the data and plotting accuracies

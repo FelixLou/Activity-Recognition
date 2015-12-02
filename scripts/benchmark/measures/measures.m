@@ -5,7 +5,7 @@ function [f normMact normMnull] = measures1(method,input,mode)
 %  method: 'F'-> F-measure, 'A' -> accuracy (diag/sum)
 %  input: confusion matrix where each row corresponds to the ground truth and the colomns are the predicted ones
 % Outputs
-%  m: F-measure for each class
+%  f: F-measure for each class
 %  normM: weighted F-measure usable for multi-class
 if nargin<3
     mode = 'full';

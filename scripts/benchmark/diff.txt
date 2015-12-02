@@ -1,0 +1,44 @@
+45d44
+<     trainLabel=training(:,szData(2)-ngroups+1:szData(2));
+46a46
+>     trainLabel=training(:,szData(2)-ngroups+1:szData(2));
+51,58c51
+<     
+<     %% Modification took place 
+<     numTraining=floor(0.7*length(trainFeature));
+<     trainFeaturePart1 = trainFeature(1:numTraining,:);
+<     trainFeaturePart2 = trainFeature(1+numTraining:end,:);
+<     trainLabelPart1 = trainFeatureLabel(1:numTraining,:);
+<     trainLabelPart2 = trainFeatureLabel(1+numTraining:end,:);
+<     
+---
+>               
+75,78d67
+<                 %Cls: the output from the classifier for the testing set
+<                 %predictLabel: prediction for the part 2 of the training
+<                 %set, used for the training of HMM
+<                 
+81,94d69
+<                 [~, predictLabel,~,~]=classifyAndReject(trainFeaturePart1,trainLabelPart1,unique(trainLabelPart1(:,col)),...
+<                     trainFeaturePart2,trainLabelPart2(:,col),'diaglinear',10);
+< 
+<                 %trainLabelPart2 and predictLabel used to build the EMITs
+<                 %trainFeatureLabel used to build the TRANs
+<                 %Cls input for prediction
+<                 %Cls = kmeans(testFeature,5);
+<                 %predictLabel=kmeans(trainFeaturePart2,5);
+<                 testProbMat=buildHMM(predictLabel,trainLabelPart2(:,col),trainFeatureLabel,Cls(:,col));
+<                 %sprintf('Original Accuracy: %f, Test Accuracy: %f\n',...
+<                     %sum(testProbMat==testFeatureLabel(:,col))/length(testFeatureLabel),...
+<                 %Cls(:,col)==testFeatureLabel(:,col));
+<                 display(sum(testProbMat==testFeatureLabel(:,col))/length(testFeatureLabel));
+<                 display(sum(Cls(:,col)==testFeatureLabel(:,col))/length(testFeatureLabel));
+115,116d89
+<                 predictLabel=knn(trainFeaturePart2,trainFeaturePart1,trainLabelPart1(:,col),param.K);
+<                 testProbMat=buildHMM(predictLabel,trainLabelPart2(:,col),trainFeatureLabel,Cls(:,col));
+118,122d90
+< %             [threshold{col}, Cls(:,col),f{col},ROC{col}]=classifyAndReject(trainFeature,trainFeatureLabel(:,col),unique(trainLabel(:,col)),...
+< %                  testFeature,testFeatureLabel(:,col),'diaglinear');
+< %             [~, predictLabel,~,~]=classifyAndReject(trainFeaturePart1,trainLabelPart1,unique(trainLabelPart1(:,col)),...
+< %                  trainFeaturePart2,trainLabelPart2(:,col),'diaglinear',10);
+<              

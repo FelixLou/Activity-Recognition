@@ -1,6 +1,6 @@
 clear;
 
-base='/Users/lujiabin/Desktop/792/project02/OpportunityUCIDataset/dataset/';
+base='../../dataset/';
 % Subject 1
 % training
 sadl1 = load([base 'S1-ADL1.dat']);

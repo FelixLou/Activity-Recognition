@@ -16,8 +16,8 @@ param.mixtures=3;
 
 %for feature extraction
 param.FX.method='mean';
-param.FX.window=15;
-param.FX.step=8;
+param.FX.window=500;
+param.FX.step=250;
 
 %Feature reduction
 param.featureReduction.name = 'pca';
