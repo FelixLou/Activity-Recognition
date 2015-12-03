@@ -1,13 +1,14 @@
 function [probfinal,A,B,pi] = BaumWelch( N, M, A, B, pi, O) 
 %N:number of Hidden state
 %M:number of Emissions
-%A:transition matrix N*N
-%B:emissions matrix  N*M
-%pi:initial vector   N
-%O;observed sequence 
+%A:transition matrix
+%B:emissions matrix
+%pi:initial vector
+%O;observed sequence
 
-[probf, alpha]=forward(N,M,A,B,pi,O);
-beta = backward(N,M,A,B,pi,O);
+[probf, alpha,scale]=forwardwithscale(N,M,A,B,pi,O);
+
+beta = backwardwithscale(N,M,A,B,pi,O,scale);
 gamma = computegamma(N,M,A,B,pi,O,alpha,beta);
 xi = computexi(N,M,A,B,pi,O,alpha,beta);
 probprev = probf;
@@ -43,20 +44,23 @@ while(1)
             B(i,k) = 0.001 + 0.999*numeratorB/denominatorB;
         end
     end
-    [probf, alpha]=forward(N,M,A,B,pi,O);
-    beta = backward(N,M,A,B,pi,O);
+
+    [probf, alpha,scale]=forwardwithscale(N,M,A,B,pi,O);
+    beta = backwardwithscale(N,M,A,B,pi,O,scale);
     gamma = computegamma(N,M,A,B,pi,O,alpha,beta);
     xi = computexi(N,M,A,B,pi,O,alpha,beta);
 
     delta = probf - probprev;
+
     probprev = probf;
     l = l + 1;
-    a =1
-    if(delta <= 0.00000001 || l > 50 ) 
+    l
+    delta
+    if(delta <= 10^-15)
+     
         break;
     end
 end
 probfinal = probf;
-l
  
         

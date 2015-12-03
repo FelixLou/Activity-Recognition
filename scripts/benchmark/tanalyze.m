@@ -20,7 +20,8 @@ if nargin<4
     param=parameters;
 end
 
-%sorting the training and test data as per the time stamps
+sorting the training and test data as per the time stamps
+have been sorted in tarrange in data_proc
     for i = 2:size(training,1)
         if training(i,1) < training(i-1,1)            
             training(i:end,1) = training(i:end,1) - (training(i,1) - training(i-1,1)) + (training(i-1,1) - training(i-2,1));
@@ -49,7 +50,8 @@ end
         trainFeatureLabel(:,i)=featureExtraction(trainLabel(:,i),param.FX,2);
     end
     
-    %% Modification took place 
+   
+    %% cross validation 
     numTraining=floor(0.7*length(trainFeature));
     trainFeaturePart1 = trainFeature(1:numTraining,:);
     trainFeaturePart2 = trainFeature(1+numTraining:end,:);
@@ -60,6 +62,8 @@ end
     % Feature extraction for test data
     testFeature=featureExtraction(test,param.FX,1);
     testLabel=testing(:,szTest(2)-ngroups+1:szTest(2));
+    testlabel = unique(testLabel)
+    trainlabel = unique(trainLabel)
     for i=1:1:size(trainLabel,2)
         testFeatureLabel(:,i)=featureExtraction(testLabel(:,i),param.FX,2);        
     end
@@ -68,63 +72,19 @@ end
     f = cell(1,ngroups);
     threshold = cell(1,ngroups);
     switch param.classifier
-%     % LDA clasiifier
-%          case 'diaglinear'
-%             Cls=zeros(size(testFeature,1),ngroups);    
-%             for col=1:1:ngroups
-%                 %Cls: the output from the classifier for the testing set
-%                 %predictLabel: prediction for the part 2 of the training
-%                 %set, used for the training of HMM
-%                 
-%                 [threshold{col}, Cls(:,col),f{col},ROC{col}]=classifyAndReject(trainFeature,trainFeatureLabel(:,col),unique(trainLabel(:,col)),...
-%                     testFeature,testFeatureLabel(:,col),'diaglinear');
-%                 [~, predictLabel,~,~]=classifyAndReject(trainFeaturePart1,trainLabelPart1,unique(trainLabelPart1(:,col)),...
-%                     trainFeaturePart2,trainLabelPart2(:,col),'diaglinear',10);
-% 
-%                 %trainLabelPart2 and predictLabel used to build the EMITs
-%                 %trainFeatureLabel used to build the TRANs
-%                 %Cls input for prediction
-%                 %Cls = kmeans(testFeature,5);
-%                 %predictLabel=kmeans(trainFeaturePart2,5);
-%                 testProbMat=buildHMM(predictLabel,trainLabelPart2(:,col),trainFeatureLabel,Cls(:,col));
-%                 %sprintf('Original Accuracy: %f, Test Accuracy: %f\n',...
-%                     %sum(testProbMat==testFeatureLabel(:,col))/length(testFeatureLabel),...
-%                 %Cls(:,col)==testFeatureLabel(:,col));
-%                 display(sum(testProbMat==testFeatureLabel(:,col))/length(testFeatureLabel));
-%                 display(sum(Cls(:,col)==testFeatureLabel(:,col))/length(testFeatureLabel));
-%                 Accuracy(col).threshold=threshold{col};
-%                 Accuracy(col).threshold_limits=f{col};
-%                 Accuracy(col).ROC = ROC{col};
-%             end
-%     % QDA classifier       
-%         case 'diagquadratic'
-%             Cls=zeros(size(testFeature,1),ngroups);
-%             for col=1:1:ngroups
-%                 [threshold{col}, Cls(:,col),f{col},ROC{col}]=classifyAndReject(trainFeature,trainFeatureLabel(:,col),unique(trainLabel(:,col)),...
-%                     testFeature,testFeatureLabel(:,col),'diagquadratic');
-%                 Accuracy(col).threshold=threshold{col};
-%                 Accuracy(col).threshold_limits=f{col};
-%                 Accuracy(col).ROC = ROC{col};
-%             end
-            
     % knn classifier
         case 'knn'
             Cls=zeros(size(testFeature,1),ngroups);
             for col=1:1:ngroups
                 Cls(:,col)=knn(testFeature,trainFeature,trainFeatureLabel(:,col),param.K);
-            
-%                 dinct = (Cls == testFeatureLabel);
-%                 accur = sum(dinct)/length(testFeatureLabel)
                 
                 predictLabel=knn(trainFeaturePart2,trainFeaturePart1,trainLabelPart1(:,col),param.K);
                 testProbMat=buildHMM(predictLabel,trainLabelPart2(:,col),trainFeatureLabel,Cls(:,col));
-                
-%                 dinct = (testProbMat == testFeatureLabel);
-%                 accur = sum(dinct)/length(testProbMat)
+
                  Cls = testProbMat;
 %                 %roc curve
-                  labelOrgTab = unique(trainFeatureLabel);
-                  stateNumber = length(labelOrgTab);
+                  trainLabel = unique(trainFeatureLabel);
+                  stateNumber = length(trainLabel);
 %                 %modify labels to plot roc
 %                 rocActLabel = repmat(Cls',stateNumber,1);
 %                 rocTestLabel = repmat(testFeatureLabel', stateNumber,1);
@@ -144,11 +104,7 @@ end
 %                 end  
 %                 %figure;
 %                 %plotroc(rocTestLabel,rocActLabel)
-%                 
-%             
-%                 % what does scores score mean??
-%                 
-%                 %figure;
+                  %figure;
 %                 %hold on;
 %                 for stateth = 1:1:stateNumber
 %                    [X,Y,T,AUC(stateth)] = perfcurve(testFeatureLabel',rocActLabel(stateth,:),labelOrgTab(stateth));
@@ -157,23 +113,6 @@ end
 %                    %plot(X,Y)
 %                 end
 %                 AUC
-%             end
-
-
-
-%             [threshold{col}, Cls(:,col),f{col},ROC{col}]=classifyAndReject(trainFeature,trainFeatureLabel(:,col),unique(trainLabel(:,col)),...
-%                  testFeature,testFeatureLabel(:,col),'diaglinear');
-%             [~, predictLabel,~,~]=classifyAndReject(trainFeaturePart1,trainLabelPart1,unique(trainLabelPart1(:,col)),...
-%                  trainFeaturePart2,trainLabelPart2(:,col),'diaglinear',10);
-%              
-%     % ncc classifier
-%         case 'ncc'
-%             for col=1:1:ngroups
-%                 [threshold{col}, Cls(:,col),f{col},ROC{col}]=classifyAndReject(trainFeature,trainFeatureLabel(:,col),unique(trainLabel(:,col)),...
-%                     testFeature,testFeatureLabel(:,col),'ncc');
-%                 Accuracy(col).threshold=threshold{col};
-%                 Accuracy(col).threshold_limits=f{col};
-%                 Accuracy(col).ROC = ROC{col};
 %             end
     end
 %expanding predicted labels to original size
@@ -187,12 +126,14 @@ end
 %% Accuracy
     for i=1:1:ngroups
         [Accuracy(i).F, Accuracy(i).ward]=clsAccuracy(testLabel(:,i),Cllss(:,i),test);
+        
     end
+     
     %roc curve and AUC
     actExpandLabels = repmat(Cllss',6,1);
     for stateth = 1:1:stateNumber
        for i = 1: 1: length(Cllss')
-           if labelOrgTab(stateth) == actExpandLabels(stateth,i)
+           if trainLabel(stateth) == actExpandLabels(stateth,i)
                actExpandLabels(stateth,i) = 1;
            else
                actExpandLabels(stateth,i) = 0;
@@ -202,7 +143,7 @@ end
     figure;
     hold on;
     for stateth = 1:1:stateNumber
-        [X,Y,T,AUC(stateth)] = perfcurve(testLabel',actExpandLabels(stateth,:),labelOrgTab(stateth));
+        [X,Y,T,AUC(stateth)] = perfcurve(testLabel',actExpandLabels(stateth,:),trainLabel(stateth));
         %subplot(2,4,stateth+1)
         summer(stateth) = sum(actExpandLabels(stateth,:));
         plot(X,Y)

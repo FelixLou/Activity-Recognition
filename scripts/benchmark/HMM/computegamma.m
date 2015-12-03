@@ -14,6 +14,10 @@ for t = 1:1:T
         gamma(t,j)=alpha(t,j)*beta(t,j);
         denominator = denominator + gamma(t,j);
     end
+    if(denominator == 0)
+       gamma(t,1) = 1;
+       denominator = 1;
+    end
     for i = 1:1:N
         gamma(t,i)=gamma(t,i)/denominator;
     end

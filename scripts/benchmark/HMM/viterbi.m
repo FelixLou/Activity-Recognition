@@ -1,6 +1,4 @@
 function [pprob,q] = viterbi( N, M, A, B, pi, O) 
-%q: final sequence
-%pprob: confidence of q
 %N:number of Hidden state
 %M:number of Emissions
 %A:transition matrix
@@ -29,7 +27,7 @@ for t = 2:1:T
         psi(t,j) = maxvalind;
     end
 end
-psi;
+psi
 
 pprob = 0.0;
 q(T) = 1;

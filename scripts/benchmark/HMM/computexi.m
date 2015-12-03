@@ -18,6 +18,11 @@ for t = 1:1:T-1
         end
     end
     
+    if(sum == 0)
+        xi(t,1,1) = 1;
+        sum = 1;
+    end
+    end
     for i = 1:1:N
         for j = 1:1:N
             xi(t,i,j) = xi(t,i,j)/sum;

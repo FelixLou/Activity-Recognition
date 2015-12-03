@@ -44,14 +44,61 @@ rng('default');
 %% Classsification
 clear
 tic
-%Subject 1
-load UCIbegin1;
-sprintf('subject 1\n')
+% %Subject 1
+% load UCIbegin1;
+% sprintf('subject 1\n')
+% param=parameters;
+% param.missingValue.colthreshold = 1;
+% if strcmp('meanVar',param.FX.method)
+%     param.featureReduction.param=110;
+% end
+% param.classifier='knn';fprintf(param.classifier);
+% param.K = 3;
+% [resultmean.pred{1,1},resultmean.actCls{1,1},resultmean.acc{1,1}]=tanalyze(training1,test1,1,param);
+% save('results.mat','resultmean');
+% % 
+% % % % subject 2
+load UCIbegin2;
+sprintf('subject 2\n')
 param=parameters;
-
+param.FX.method='meanVar';
+param.missingValue.colthreshold = 1;
 if strcmp('meanVar',param.FX.method)
     param.featureReduction.param=110;
 end
 param.classifier='knn';fprintf(param.classifier);
-[resultmean.pred{1,1},resultmean.actCls{1,1},resultmean.acc{1,1}]=tanalyze(training1,test1,1,param);
+param.K = 2;
+[resultmean.pred{2,1},resultmean.actCls{2,1},resultmean.acc{2,1}]=tanalyze(training2,test2,1,param);
 save('results.mat','resultmean');
+% % 
+% % subject 3
+% load UCIbegin3;
+% sprintf('subject 3\n')
+% param=parameters;
+% param.FX.method='mean';
+% param.missingValue.colthreshold = 1;
+% if strcmp('meanVar',param.FX.method)
+%     param.featureReduction.param=110;
+% end
+% param.classifier='knn';fprintf(param.classifier);
+% param.K = 4;
+% [resultmean.pred{3,1},resultmean.actCls{3,1},resultmean.acc{3,1}]=tanalyze(training3,test3,1,param);
+% save('results.mat','resultmean');
+
+%Subject 4
+% load UCIbegin4;
+% sprintf('subject 4\n')
+% param=parameters;
+% param.FX.method='meanVar';
+% param.missingValue.colthreshold = 1;
+% 
+% if strcmp('meanVar',param.FX.method)
+%     param.featureReduction.param=110;
+% end
+% param.featureReduction.param = 200;
+% param.classifier='knn';fprintf(param.classifier);
+% param.K = 1;
+% param.missingValue.mode = 'R';
+% 
+% [resultmean.pred{4,1},resultmean.actCls{4,1},resultmean.acc{4,1}]=tanalyze(training4,test4,1,param);
+% save('results.mat','resultmean');
