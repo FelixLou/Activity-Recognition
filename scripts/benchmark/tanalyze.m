@@ -20,8 +20,8 @@ if nargin<4
     param=parameters;
 end
 
-sorting the training and test data as per the time stamps
-have been sorted in tarrange in data_proc
+%sorting the training and test data as per the time stamps
+%have been sorted in tarrange in data_proc
     for i = 2:size(training,1)
         if training(i,1) < training(i-1,1)            
             training(i:end,1) = training(i:end,1) - (training(i,1) - training(i-1,1)) + (training(i-1,1) - training(i-2,1));
@@ -62,8 +62,6 @@ have been sorted in tarrange in data_proc
     % Feature extraction for test data
     testFeature=featureExtraction(test,param.FX,1);
     testLabel=testing(:,szTest(2)-ngroups+1:szTest(2));
-    testlabel = unique(testLabel)
-    trainlabel = unique(trainLabel)
     for i=1:1:size(trainLabel,2)
         testFeatureLabel(:,i)=featureExtraction(testLabel(:,i),param.FX,2);        
     end
@@ -73,48 +71,26 @@ have been sorted in tarrange in data_proc
     threshold = cell(1,ngroups);
     switch param.classifier
     % knn classifier
+       case 'diagquadratic'
+            Cls=zeros(size(testFeature,1),ngroups);
+            for col=1:1:ngroups
+                [threshold{col}, Cls(:,col),f{col},ROC{col}]=classifyAndReject(trainFeature,trainFeatureLabel(:,col),unique(trainLabel(:,col)),...
+                    testFeature,testFeatureLabel(:,col),'diagquadratic');
+                Accuracy(col).threshold=threshold{col};
+                Accuracy(col).threshold_limits=f{col};
+                Accuracy(col).ROC = ROC{col};
+            end
         case 'knn'
             Cls=zeros(size(testFeature,1),ngroups);
             for col=1:1:ngroups
                 Cls(:,col)=knn(testFeature,trainFeature,trainFeatureLabel(:,col),param.K);
-                
                 predictLabel=knn(trainFeaturePart2,trainFeaturePart1,trainLabelPart1(:,col),param.K);
-                testProbMat=buildHMM(predictLabel,trainLabelPart2(:,col),trainFeatureLabel,Cls(:,col));
-
-                 Cls = testProbMat;
-%                 %roc curve
-                  trainLabel = unique(trainFeatureLabel);
-                  stateNumber = length(trainLabel);
-%                 %modify labels to plot roc
-%                 rocActLabel = repmat(Cls',stateNumber,1);
-%                 rocTestLabel = repmat(testFeatureLabel', stateNumber,1);
-%                 for stateth = 1:1:stateNumber
-%                     for i = 1: 1: length(Cls)
-%                         if labelOrgTab(stateth) == rocActLabel(stateth,i)
-%                             rocActLabel(stateth,i) = 1;
-%                         else 
-%                             rocActLabel(stateth,i) = 0;
-%                         end
-%                         if labelOrgTab(stateth) == rocTestLabel(stateth,i)
-%                             rocTestLabel(stateth,i) = 1;
-%                         else 
-%                             rocTestLabel(stateth,i) = 0;
-%                         end
-%                     end
-%                 end  
-%                 %figure;
-%                 %plotroc(rocTestLabel,rocActLabel)
-                  %figure;
-%                 %hold on;
-%                 for stateth = 1:1:stateNumber
-%                    [X,Y,T,AUC(stateth)] = perfcurve(testFeatureLabel',rocActLabel(stateth,:),labelOrgTab(stateth));
-%                    
-%                    %subplot(2,4,stateth+1)
-%                    %plot(X,Y)
-%                 end
-%                 AUC
-%             end
+                testProbMat=HMM_Train_Viterbi(predictLabel,trainLabelPart2(:,col),trainFeatureLabel,Cls(:,col));
+            end
+            Cls = testProbMat;     
     end
+    trainLabel = unique(trainFeatureLabel);
+    stateNumber = length(trainLabel);
 %expanding predicted labels to original size
     if strcmp(param.FX.method,'raw')
         Cllss=Cls;
@@ -127,9 +103,8 @@ have been sorted in tarrange in data_proc
     for i=1:1:ngroups
         [Accuracy(i).F, Accuracy(i).ward]=clsAccuracy(testLabel(:,i),Cllss(:,i),test);
         
-    end
-     
-    %roc curve and AUC
+    end 
+%ROC curve and AUC
     actExpandLabels = repmat(Cllss',6,1);
     for stateth = 1:1:stateNumber
        for i = 1: 1: length(Cllss')
