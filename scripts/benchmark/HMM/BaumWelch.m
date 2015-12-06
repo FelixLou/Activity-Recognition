@@ -54,8 +54,6 @@ while(1)
 
     probprev = probf;
     l = l + 1;
-    l
-    delta
     if(delta <= 10^-15)
      
         break;

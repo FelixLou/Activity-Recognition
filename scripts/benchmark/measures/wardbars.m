@@ -8,7 +8,7 @@ function [handle,output]=wardbars(label,data)
 %   handle: handle for the figure plotted by the function
 %   output: an array of various accuracy measures
 
-nSets=length(label);
+nSets=1;
 nSubj=size(data,1);
 nClassifiers=size(data,2);
 handle=figure;
@@ -182,8 +182,8 @@ for iSubj=1:nSubj
 end
     legend(barlegend(end:-1:1),-1,'Orientation','horizontal');
     set(legend,'FontWeight','bold');
-    set(legend,'FontSize',12);
-    set(gca,'Ylim',[0 110])
+    set(legend,'FontSize',10);
+    set(gca,'Ylim',[0 100])
     xlabel('Different Classifiers grouped by Subjects','FontWeight','bold','FontSize',12);
     ylabel('Percentage of various measures','FontWeight','bold','FontSize',12);
     set(gca,'XTick',L);

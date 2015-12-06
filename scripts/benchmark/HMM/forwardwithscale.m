@@ -47,7 +47,7 @@ end
 pprob = 0.0;
 for t = 1:1:T
     if(scale(t) == 0)
-        ii = 1
+        ii = 1;
     end
     pprob = pprob + log(scale(t));
 end

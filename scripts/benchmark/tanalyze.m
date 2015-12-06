@@ -1,4 +1,4 @@
-function [Cllss,testLabel,Accuracy]=tanalyze(training,testing,ngroups,param)
+function [Cllss,testLabel,Accuracy]=tanalyze(training,testing,ngroups,param,subjectth)
 % This function classifies the test data using the training set.
 %--------------------------------------------------------------------------
 % The inputs are:
@@ -84,8 +84,10 @@ end
             Cls=zeros(size(testFeature,1),ngroups);
             for col=1:1:ngroups
                 Cls(:,col)=knn(testFeature,trainFeature,trainFeatureLabel(:,col),param.K);
+                %testProbMat=HMM_Train_Viterbi(Cls(:,col),testFeatureLabel,trainFeatureLabel,Cls(:,col));
                 predictLabel=knn(trainFeaturePart2,trainFeaturePart1,trainLabelPart1(:,col),param.K);
                 testProbMat=HMM_Train_Viterbi(predictLabel,trainLabelPart2(:,col),trainFeatureLabel,Cls(:,col));
+                
             end
             Cls = testProbMat;     
     end
@@ -115,19 +117,37 @@ end
            end
        end
     end
-    figure;
-    hold on;
+    
+    
+    %subplot(2,2,stateth)
     for stateth = 1:1:stateNumber
         [X,Y,T,AUC(stateth)] = perfcurve(testLabel',actExpandLabels(stateth,:),trainLabel(stateth));
-        %subplot(2,4,stateth+1)
+        hold on;
+        subplot(2,2,subjectth);
+        title(['subject', num2str(subjectth)]);
+        xlabel('False Positive Rate');
+        ylabel('True Positive Rate');
         summer(stateth) = sum(actExpandLabels(stateth,:));
         plot(X,Y)
     end
     weightedAUC = 0;
     for stateth = 1:1:stateNumber
-        weightedAUC = summer(stateth)*AUC(stateth)/length(actExpandLabels(stateth,:)) + weightedAUC;
+        weightedAUC = summer(stateth)*AUC(stateth)/length(actExpandLabels(stateth,:)) +  weightedAUC ;
     end
     weightedAUC
+    
+    
+%     %ward measure
+%     label = {'hmm1','hmm2','hmm3','hmm4'};
+%     data2=[];
+%     for iSubj=1:4
+%         data2{iSubj,1} = Accuracy.ward.t;
+%     end
+%     [handle2,measuresGest]=wardbars(label',data2);
+%     title('Gestures','FontWeight','bold','FontSize',12);
+%     save('measuresGestII.mat','measuresGest');
+    
+    
     
 
 end
